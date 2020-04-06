@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "lib": [
       "esnext",
       "esnext.asynciterable",
@@ -28,9 +29,5 @@
       "@nuxt/types",
       "@nuxtjs/axios"
     ]
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  }
 }

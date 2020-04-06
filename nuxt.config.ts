@@ -4,8 +4,7 @@ import { Configuration } from '@nuxt/types'
 const {
   npm_package_name: TITLE,
   npm_package_description: DESCRIPTION,
-  ENABLE_MOCK,
-  SUPPORT_IE,
+  NODE_ENV,
   BASE_URL
 } = process.env
 
@@ -21,16 +20,7 @@ const config: Configuration = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: DESCRIPTION || '' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    ...(SUPPORT_IE === 'true'
-      ? {
-          script: [
-            {
-              src: 'https://polyfill.io/v3/polyfill.min.js?features=EventSource'
-            }
-          ]
-        }
-      : {})
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
    ** Customize the progress-bar color
@@ -46,7 +36,7 @@ const config: Configuration = {
   plugins: [
     '~/plugins/axios',
     '~/plugins/vxm',
-    ENABLE_MOCK === 'true' ? '~/plugins/mock' : '~/plugins/api'
+    NODE_ENV === 'production' ? '~/plugins/api' : '~/plugins/mock'
   ],
   /*
    ** Nuxt.js dev-modules
@@ -79,10 +69,7 @@ const config: Configuration = {
      ** Customize PostCSS Loader plugins
      */
     postcss: {
-      preset: {
-        // Caution: https://github.com/postcss/autoprefixer#beware-of-enabling-autoplacement-in-old-projects
-        autoprefixer: SUPPORT_IE === 'true' ? { grid: 'autoplace' } : {}
-      }
+      preset: {}
     }
     /*
      ** You can extend webpack config here

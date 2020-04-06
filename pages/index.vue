@@ -1,44 +1,33 @@
 <template>
   <div class="container">
     <div>
-      <logo />
       <h1 class="title">
         nuxt-ts
       </h1>
-      <h2 class="subtitle">
-        {{ $vxm.users.fullname }}'s swell Nuxt.js project
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <div v-for="work in works" :key="work.id">
+        <nuxt-link :to="`/works/?id=${work.id}`">
+          <img :src="thumbnailSrc(work)" />
+          {{ work.title }}
+        </nuxt-link>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Logo from '~/components/atoms/Logo.vue'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { WorkSummary } from '~/apis/works/list.json'
 
-@Component({
-  components: { Logo }
-})
+@Component
 export default class extends Vue {
-  @Prop()
-  test!: {
-    hoge: string
+  works: WorkSummary[] = []
+
+  get thumbnailSrc() {
+    return (work: WorkSummary) => `/s3/works/${work.id}/thumbnail.png`
   }
 
-  async mounted() {
-    await this.$vxm.users.doAnotherAsyncStuff(0)
+  async fetch() {
+    this.works = await $nuxt.$api.works.list_json.$get()
   }
 }
 </script>
@@ -68,46 +57,5 @@ export default class extends Vue {
   font-weight: 300;
   color: #35495e;
   letter-spacing: 1px;
-}
-
-.subtitle {
-  padding-bottom: 15px;
-  font-size: 42px;
-  font-weight: 300;
-  color: #526488;
-  word-spacing: 5px;
-}
-
-.links {
-  padding-top: 15px;
-}
-
-.button--green {
-  display: inline-block;
-  padding: 10px 30px;
-  color: #3b8070;
-  text-decoration: none;
-  border: 1px solid;
-  border-radius: 4px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  padding: 10px 30px;
-  margin-left: 15px;
-  color: #35495e;
-  text-decoration: none;
-  border: 1px solid;
-  border-radius: 4px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
 }
 </style>

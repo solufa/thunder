@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-ts",
+  "name": "thunder",
   "version": "0.1.0",
   "description": "My swell Nuxt.js project",
   "author": "m-mitsuhide",
@@ -9,7 +9,7 @@
     "dev:client": "nuxt-ts",
     "dev:api": "aspida --watch",
     "dev:mock": "aspida-mock --watch",
-    "generate": "npm run build:api && nuxt-ts generate",
+    "generate": "run-p build:* && nuxt-ts generate",
     "build:api": "aspida --build",
     "build:mock": "aspida-mock --build",
     "lint": "npm run lint:script && npm run lint:style",
@@ -38,7 +38,24 @@
       "$nuxt": "readonly"
     },
     "rules": {
-      "no-unused-vars": "off"
+      "complexity": [
+        "error",
+        4
+      ],
+      "max-depth": [
+        "error",
+        1
+      ],
+      "max-nested-callbacks": [
+        "error",
+        2
+      ],
+      "max-lines": [
+        "error",
+        200
+      ],
+      "no-console": 0,
+      "prefer-template": "error"
     }
   },
   "lint-staged": {
@@ -63,7 +80,7 @@
     ]
   },
   "dependencies": {
-    "@aspida/axios": "^0.4.5",
+    "@aspida/axios": "0.4.6",
     "@nuxt/typescript-runtime": "^0.4.1",
     "@nuxtjs/axios": "^5.9.7",
     "nuxt": "^2.12.2",
@@ -76,7 +93,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-config-typescript": "^1.0.2",
     "@nuxtjs/stylelint-module": "^3.2.2",
-    "aspida-mock": "^0.4.1",
+    "aspida-mock": "0.4.3",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-nuxt": ">=0.5.2",
